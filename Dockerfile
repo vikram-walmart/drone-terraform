@@ -3,7 +3,12 @@
 #     docker build -t jmccann/drone-terraform:latest .
 FROM golang:1.16-alpine AS builder
 
-RUN apk add --no-cache git
+RUN apk add --no-cache git \
+    apk update \
+    apk add bash py-pip \
+    apk add --virtual=build gcc libffi-dev musl-dev openssl-dev python- dev \
+    pip install azure-cli \
+    apk del --purge build
 
 WORKDIR /tmp/drone-terraform
 
